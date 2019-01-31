@@ -1,0 +1,3 @@
+rocketchat_API
+configparser
+requests==2.20.1
