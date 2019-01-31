@@ -1,0 +1,3 @@
+[submodule "duckduckgo"]
+	path = duckduckgo
+	url = https://github.com/knight-shade/DuckDuckGo-Python3-Library.git
