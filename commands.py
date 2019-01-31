@@ -16,16 +16,18 @@ def ping(message, param):
 
 def ddg(message, param):
   q = DuckDuckGo.search(param)
-  if q.abstract.abstract:
-    common.send_message("*" + q.abstract.heading + "*:\n" + q.abstract.abstract_text + "\n" + q.abstract.abstract_url)
-  elif q.definition.definition:
-    common.send_message("*" + param  + "*:\n" + q.definition.definition)
-  elif q.answer.answer:
+  if q.answer.answer:
     common.send_message("*" + param  + "*:\n" + q.answer.answer)
+  elif q.definition.definition:
+    common.send_message("*" + param  + "*:\n" + q.definition.definition + "\n" + q.definition.definition_url)
+  elif q.abstract.abstract:
+    common.send_message("*" + q.abstract.heading + "*:\n" + q.abstract.abstract_text + "\n" + q.abstract.abstract_url, q.abstract.image)
   elif q.results:
     common.send_message("*" + param  + "*:\n" + q.results[0].text + "\n" + q.results[0].first_url)
   elif q.related_topics:
     common.send_message("*" + param  + "*:\n" + q.related_topics[0].text + "\n" + q.related_topics[0].first_url)
+  elif q.redirect:
+    common.send_message("*" + param  + "*:\n" + q.redirect)
   else:
     common.send_message("I couldn't find anything for _" + param + "_!")
 
