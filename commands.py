@@ -3,6 +3,7 @@ from pprint import pprint
 import giphy_client
 import re, sys
 import time
+import requests
 
 import config
 import common
@@ -58,6 +59,16 @@ def gif(message, param):
   except ApiException as e:
       print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
 
+def weather(message, param):
+  r = requests.get('http://wttr.in/' + param + "?1n")
+  if r.text:
+    # we get text in ANSI, escape it
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    common.send_message("```\n" + ansi_escape.sub('', r.text) + "\n```", 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512')
+    return 0
+  common.send_message("*Current weather in BE:*", 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512')
+
+
 def help(message, param):
   global commands
   common.send_message("Available commands:\n" + "\n".join(list(commands.keys())))
@@ -69,6 +80,7 @@ def parse(message):
               '!ddg': ddg,
               '!gif': gif,
               '!help': help,
+              '!weather': weather,
   }
 
   is_command = re.match('^\!(.+)', message['messages'][0]['msg'])
