@@ -5,6 +5,7 @@ from pprint import pprint
 import giphy_client
 import re
 import sys
+import random
 import time
 import requests
 
@@ -99,6 +100,33 @@ def weather(message, param):
     common.send_message('*Current weather in BE:*', buienradar_url)
 
 
+def magic8ball(message, param):
+    answers =   [
+                "😀 It is certain", 
+                "👍 It is decidedly so", 
+                "👌 Without a doubt", 
+                "😄 Yes definitely", 
+                "😁 You may rely on it", 
+                "😉 As I see it yes", 
+                "🤔 Most likely", 
+                "☺️  Outlook good", 
+                "🙂 Yes", 
+                "☝️  Signs point to yes", 
+                "🕙 Reply hazy try again", 
+                "🕙 Ask again later", 
+                "🕙 Better not tell you now", 
+                "🕙 Cannot predict now", 
+                "😌 Concentrate and ask again", 
+                "😔 Don't count on it", 
+                "😡 My reply is no", 
+                "😓 My sources say no", 
+                "😟 Outlook not so good", 
+                "😥 Very doubtful"
+                ]
+    common.send_message("🎱 *Magic 8 ball says*:\n"
+                        + answers[random.randint(0, len(answers))-1])
+
+
 def help(message, param):
     global commands
     common.send_message('Available commands:\n'
@@ -111,6 +139,7 @@ def parse(message):
         '!ddg': ddg,
         '!gif': gif,
         '!help': help,
+        '!magic8ball': magic8ball,
         '!ping': ping,
         '!weather': weather,
         }
