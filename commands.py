@@ -1,5 +1,8 @@
-import re, sys
+from giphy_client.rest import ApiException
 from pprint import pprint
+import giphy_client
+import re, sys
+import time
 
 import config
 import common
@@ -31,10 +34,34 @@ def ddg(message, param):
   else:
     common.send_message("I couldn't find anything for _" + param + "_!")
 
+def gif(message, param):
+  api_instance = giphy_client.DefaultApi()
+  try:
+    api_key = config.bot['giphy']['api_key'] 
+    rating = config.bot['giphy']['rating'] # str | Filters results by specified rating. (optional)
+    lang = config.bot['giphy']['lang'] # str | Specify default country for regional content; use a 2-letter ISO 639-1 country code. See list of supported languages <a href = \"../language-support\">here</a>. (optional)
+  except:
+    common.send_message("Failed to get giphy configurationn")
+
+  q = param # str | Search query term or prhase.
+  limit = 1 # int | The maximum number of records to return. (optional) (default to 25)
+  offset = 0 # int | An optional results offset. Defaults to 0. (optional) (default to 0)
+  fmt = 'json' # str | Used to indicate the expected response format. Default is Json. (optional) (default to json)
+  
+  try: 
+      # Search Endpoint
+      api_response = api_instance.gifs_search_get(api_key, q, limit=limit, offset=offset, rating=rating, lang=lang, fmt=fmt)
+      pprint(api_response.data)
+      common.send_message("*" + q + "*", api_response.data[0].images.original.url)
+  except ApiException as e:
+      print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
+
+
 def parse(message):
   commands = {'!test': test,
               '!ping': ping,
               '!ddg': ddg,
+              '!gif': gif,
   }
 
   is_command = re.match('^\!(.+)', message['messages'][0]['msg'])
