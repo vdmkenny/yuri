@@ -22,6 +22,9 @@ def ping(message, param):
 
 
 def ddg(message, param):
+    if not param:
+        common.send_message('Usage: _!ddg searchterm_')
+        return
     q = DuckDuckGo.search(param)
     if q.answer.answer:
         common.send_message('*' + param + '*:\n' + q.answer.answer)
