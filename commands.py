@@ -76,9 +76,9 @@ def gif(message, param):
         pprint(api_response.data)
         common.send_message('*' + q + '*',
                             api_response.data[0].images.original.url)
-    except ApiException, e:
-        print 'Exception when calling DefaultApi->gifs_search_get: %s\n' \
-            % e
+    except(ApiException, e):
+        print('Exception when calling DefaultApi->gifs_search_get: %s\n' \
+            % e)
 
 
 def weather(message, param):
