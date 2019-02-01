@@ -61,12 +61,13 @@ def gif(message, param):
 
 def weather(message, param):
   r = requests.get('http://wttr.in/' + param + "?1n")
+  buienradar_url = 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512&time=' + str(int(time.time()))
   if r.text:
     # we get text in ANSI, escape it
     ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-    common.send_message("```\n" + ansi_escape.sub('', r.text) + "\n```", 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512')
+    common.send_message("```\n" + ansi_escape.sub('', r.text) + "\n```", buienradar_url)
     return 0
-  common.send_message("*Current weather in BE:*", 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512')
+  common.send_message("*Current weather in BE:*", buienradar_url)
 
 
 def help(message, param):
