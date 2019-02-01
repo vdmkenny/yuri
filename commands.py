@@ -10,6 +10,8 @@ import common
 sys.path.append('duckduckgo')
 import DuckDuckGo
 
+commands = None
+
 
 def test(message, param):
   common.send_message('This is a reply to the !test command!')
@@ -56,12 +58,17 @@ def gif(message, param):
   except ApiException as e:
       print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
 
+def help(message, param):
+  global commands
+  common.send_message("Available commands:\n" + "\n".join(list(commands.keys())))
 
 def parse(message):
+  global commands
   commands = {'!test': test,
               '!ping': ping,
               '!ddg': ddg,
               '!gif': gif,
+              '!help': help,
   }
 
   is_command = re.match('^\!(.+)', message['messages'][0]['msg'])
