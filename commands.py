@@ -60,6 +60,8 @@ def gif(message, param):
       print("Exception when calling DefaultApi->gifs_search_get: %s\n" % e)
 
 def weather(message, param):
+  if not param:
+      param = config.bot['weather']['default_location']
   r = requests.get('http://wttr.in/' + param + "?1n")
   buienradar_url = 'https://api.buienradar.nl/image/1.0/RadarMapBE?w=500&h=512&time=' + str(int(time.time()))
   if r.text:
